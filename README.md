@@ -1,4 +1,4 @@
-![](https://external-preview.redd.it/i-took-gemini-pro-and-pro-vision-for-a-spin-in-the-google-v0-MYIxTMo-dsWDY1wwNa5M-IW3a5FeUYKtpcbKMtLG4OE.jpg)
+![](https://www.kdnuggets.com/wp-content/uploads/how-to-access-and-use-gemini-api-for-free_01.png)
 # Gemini Vision Invoice Chatbot
 
 ## Introduction
@@ -6,6 +6,7 @@ Gemini Vision Invoice is a Streamlit-based web application designed to analyze i
 
 ## App
 https://geminivisioninvoice.streamlit.app/
+![](https://github.com/abh2050/gemini-vision/blob/main/pic2.png)
 
 ## Installation
 To run the Gemini Vision Invoice application, you need to have Python installed on your system. Follow these steps to set up the application:
