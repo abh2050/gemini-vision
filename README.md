@@ -1,4 +1,8 @@
 ![](https://www.kdnuggets.com/wp-content/uploads/how-to-access-and-use-gemini-api-for-free_01.png)
+![dotenv 0.20.0](https://img.shields.io/badge/dotenv-0.20.0-brightgreen?style=flat)
+![Streamlit 1.10.0](https://img.shields.io/badge/Streamlit-1.10.0-blue?style=flat)
+![Google API](https://img.shields.io/badge/Google_API-latest-yellow?style=flat)
+![Python](https://img.shields.io/badge/Python-3.10-blue?style=flat&logo=python&logoColor=white)
 # Gemini Vision Invoice Chatbot
 
 ## Introduction
