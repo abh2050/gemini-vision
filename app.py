@@ -1,40 +1,24 @@
-# Q&A Chatbot
-#from langchain.llms import OpenAI
-
-from dotenv import load_dotenv
-
-load_dotenv()  # take environment variables from .env.
-
 import streamlit as st
 import os
-import pathlib
-import textwrap
-from PIL import Image
-
-
 import google.generativeai as genai
+from PIL import Image
+from dotenv import load_dotenv
 
+load_dotenv()
 
-os.getenv("GOOGLE_API_KEY")
 genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 
-## Function to load OpenAI model and get respones
-
-def get_gemini_response(input,image,prompt):
+def get_gemini_response(input_text, image_parts, prompt):
     model = genai.GenerativeModel('gemini-pro-vision')
-    response = model.generate_content([input,image[0],prompt])
+    response = model.generate_content([prompt, image_parts[0], input_text])
     return response.text
-    
 
 def input_image_setup(uploaded_file):
-    # Check if a file has been uploaded
     if uploaded_file is not None:
-        # Read the file into bytes
         bytes_data = uploaded_file.getvalue()
-
         image_parts = [
             {
-                "mime_type": uploaded_file.type,  # Get the mime type of the uploaded file
+                "mime_type": uploaded_file.type,
                 "data": bytes_data
             }
         ]
@@ -42,32 +26,29 @@ def input_image_setup(uploaded_file):
     else:
         raise FileNotFoundError("No file uploaded")
 
-
-##initialize our streamlit app
-
 st.set_page_config(page_title="Gemini Image Demo")
-
 st.header("Gemini Application")
-input=st.text_input("Input Prompt: ",key="input")
+input_text = st.text_input("Input Prompt: ", key="input")
 uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "jpeg", "png"])
-image=""   
+
 if uploaded_file is not None:
     image = Image.open(uploaded_file)
     st.image(image, caption="Uploaded Image.", use_column_width=True)
 
-
-submit=st.button("Tell me about the image")
-
-input_prompt = """
-               You are an expert in understanding invoices.
-               You will receive input images as invoices &
-               you will have to answer questions based on the input image
-               """
-
-## If ask button is clicked
+submit = st.button("Tell me about the image")
 
 if submit:
-    image_data = input_image_setup(uploaded_file)
-    response=get_gemini_response(input_prompt,image_data,input)
-    st.subheader("The Response is")
-    st.write(response)
+    try:
+        image_data = input_image_setup(uploaded_file)
+        input_prompt = """
+            You are an expert in understanding invoices.
+            You will receive input images as invoices &
+            you will have to answer questions based on the input image.
+            """
+        response = get_gemini_response(input_text, image_data, input_prompt)
+        st.subheader("The Response is")
+        st.write(response)
+    except FileNotFoundError as e:
+        st.error(str(e))
+    except Exception as e:
+        st.error(f"An error occurred: {e}")
