@@ -11,7 +11,7 @@ genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 
 def get_gemini_response(input_text, image_parts, prompt):
     try:
-        model = genai.GenerativeModel('gemini-pro-vision')
+        model = genai.GenerativeModel('gemini-2.0-flash')
         response = model.generate_content([prompt, image_parts[0], input_text])
         return response.text
     except Exception as e:
