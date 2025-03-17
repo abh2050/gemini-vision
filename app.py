@@ -6,12 +6,16 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+# Configure Gemini API (ensure your API key is correctly set in .env)
 genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 
 def get_gemini_response(input_text, image_parts, prompt):
-    model = genai.GenerativeModel('gemini-pro-vision')
-    response = model.generate_content([prompt, image_parts[0], input_text])
-    return response.text
+    try:
+        model = genai.GenerativeModel('gemini-pro-vision')
+        response = model.generate_content([prompt, image_parts[0], input_text])
+        return response.text
+    except Exception as e:
+        return f"Error generating response: {e}"
 
 def input_image_setup(uploaded_file):
     if uploaded_file is not None:
@@ -41,7 +45,7 @@ if submit:
     try:
         image_data = input_image_setup(uploaded_file)
         input_prompt = """
-            You are an expert in understanding invoices.
+            You are an expert in understanding images, specifically invoices.
             You will receive input images as invoices &
             you will have to answer questions based on the input image.
             """
@@ -51,4 +55,4 @@ if submit:
     except FileNotFoundError as e:
         st.error(str(e))
     except Exception as e:
-        st.error(f"An error occurred: {e}")
+        st.error(f"An unexpected error occurred: {e}")
